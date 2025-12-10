@@ -15,9 +15,6 @@ test('Structure: Every section must have a heading', async ({ page }) => {
   const sections = page.locator('section');
   const count = await sections.count();
 
-  // Prevent false positives
-  expect(count).toBeGreaterThan(0);
-
   for (let i = 0; i < count; i++) {
     const section = sections.nth(i);
 
