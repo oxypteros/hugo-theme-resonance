@@ -1,0 +1,15 @@
+# Hugo
+public/
+.hugo_build.lock
+hugo_stats.json
+
+# Env
+.env
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/

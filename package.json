@@ -1,0 +1,38 @@
+{
+  "name": "resonance",
+  "version": "0.0.1",
+  "description": "Headless storefront theme for Hugo.",
+  "homepage": "https://github.com/oxypteros/hugo-theme-resonance#readme",
+  "bugs": {
+    "url": "https://github.com/oxypteros/hugo-theme-resonance/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oxypteros/hugo-theme-resonance.git"
+  },
+  "license": "MIT",
+  "author": "oxypteros",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "prettier --check .",
+    "test:e2e": "npx playwright test"
+  },
+  "dependencies": {
+    "@alpinejs/csp": "^3.15.2"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@playwright/test": "^1.57.0",
+    "@tailwindcss/cli": "^4.1.17",
+    "@types/node": "^24.10.2",
+    "playwright": "^1.57.0",
+    "prettier": "^3.7.4",
+    "prettier-plugin-go-template": "^0.0.15",
+    "prettier-plugin-hugo-post": "^0.4.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "prettier-plugin-toml": "^2.0.6",
+    "tailwindcss": "^4.1.17"
+  }
+}

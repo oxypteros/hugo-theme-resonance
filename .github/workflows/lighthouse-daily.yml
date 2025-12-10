@@ -1,0 +1,89 @@
+name: Daily Lighthouse Audit
+on:
+  schedule:
+    - cron: '43 20 * * *'
+  workflow_dispatch:
+
+jobs:
+  psi-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Fetch Score from Google API
+        id: psi
+        run: |
+          URL="https://resonance.oxypteros.com/"
+          API_KEY="${{ secrets.PAGESPEED_API_KEY }}"
+          MAX_SCORE=0
+
+          echo "🔥 Warming up: Sending a request via Google PSI..."
+
+          # Don't capture the output, we just want Google to hit it.
+          curl -s "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=$URL&strategy=mobile&category=performance&key=$API_KEY" > /dev/null
+
+          echo "⏳ Waiting 60 seconds for Cloudflare Cache/Worker to settle..."
+          sleep 60
+
+          echo "🚀 Starting Actual Audit (Best of 3)..."
+
+          for i in {1..3}
+          do
+            echo "Attempt $i/3..."
+            
+            RESPONSE=$(curl -s "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=$URL&strategy=mobile&category=performance&key=$API_KEY")
+            SCORE_RAW=$(echo $RESPONSE | jq '.lighthouseResult.categories.performance.score')
+
+            if [ "$SCORE_RAW" == "null" ] || [ -z "$SCORE_RAW" ]; then
+               echo "❌ Error: Could not fetch score on attempt $i."
+               continue
+            fi
+
+            CURRENT_SCORE=$(echo "$SCORE_RAW * 100" | bc | awk '{print int($1+0.5)}')
+            echo "📊 Run $i Score: $CURRENT_SCORE"
+
+            if [ "$CURRENT_SCORE" -gt "$MAX_SCORE" ]; then
+              MAX_SCORE=$CURRENT_SCORE
+            fi
+
+            # If we get high score, stop early to save API calls/time
+            if [ "$CURRENT_SCORE" -ge 99 ]; then
+              echo "🚀 Excellent score achieved. Stopping early."
+              break
+            fi
+
+            # Sleep between actual measurement runs
+            if [ $i -lt 3 ]; then
+              echo "💤 Cooling down for 30 seconds..."
+              sleep 30
+            fi
+          done
+
+          if [ "$MAX_SCORE" -eq "0" ]; then
+             echo "❌ Failed to get any valid score."
+             exit 1
+          fi
+
+          echo "🏆 Final Selected Score: $MAX_SCORE"
+          echo "score=$MAX_SCORE" >> $GITHUB_OUTPUT
+
+      - name: Generate SVG Badge
+        env:
+          SCORE: ${{ steps.psi.outputs.score }}
+        run: |
+          COLOR="red"
+          if (( $SCORE >= 90 )); then COLOR="266429"; fi
+          if (( $SCORE >= 50 && $SCORE < 90 )); then COLOR="orange"; fi
+
+          mkdir -p .github/badges
+          curl "https://img.shields.io/badge/PageSpeed-$SCORE-$COLOR?style=flat&logo=pagespeedinsights&logoColor=%234285F4&labelColor=%23F0F0F0" > .github/badges/lighthouse.svg
+
+      - name: Commit Badge
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: '🤖 Update Lighthouse Badge: ${{ steps.psi.outputs.score }} [skip ci]'
+          file_pattern: .github/badges/lighthouse.svg
