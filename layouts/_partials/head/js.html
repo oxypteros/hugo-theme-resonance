@@ -2,19 +2,20 @@
   {{- $opts := dict
     "minify" (not hugo.IsDevelopment)
     "sourceMap" (cond hugo.IsDevelopment "external" "")
-    "targetPath" "js/main.js"
+    "targetPath" "js/app.js"
+    "format" "esm"
   }}
   {{- with . | js.Build $opts }}
     {{- if hugo.IsDevelopment }}
-      <script src="{{ .RelPermalink }}"></script>
+      <script type="module" defer src="{{ .RelPermalink }}"></script>
     {{- else }}
       {{- with . | fingerprint }}
-        <script
-          src="{{ .RelPermalink }}"
-          integrity="{{ .Data.Integrity }}"
-          crossorigin="anonymous"
-        ></script>
+        <script type="module" defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
       {{- end }}
     {{- end }}
   {{- end }}
+  {{- else }}
+  <script>
+    console.error('App bundler ERROR');
+  </script>
 {{- end }}
