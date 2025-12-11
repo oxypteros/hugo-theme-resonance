@@ -1,0 +1,15 @@
+[[header]]
+name = "Home"
+url = "/"
+weight = 100
+
+[[footer]]
+name = "Contact"
+url = "/contact/"
+weight = 100
+
+[[social]]
+name = "Github"
+url = "https://github.com/oxypteros/"
+pre = "#github"
+weight = 100
