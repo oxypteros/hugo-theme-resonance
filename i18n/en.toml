@@ -1,0 +1,9 @@
+[FooterLicense]
+other = "All rights reserved"
+# a11y
+[HeaderMenuLabel]
+other = "Main Menu"
+[SocialLinksLabel]
+other = "Social Links"
+[OpensInNewTab]
+other = "(Opens in a new tab)"
