@@ -1,46 +1,46 @@
 {{- /*
-Renders a menu for the given menu ID.
+  Renders a menu for the given menu ID.
 
-@context {page} page The current page.
-@context {string} menuID The menu ID.
-@context {string} class CSS classes applied to the <ul>
+  @context {page} page The current page.
+  @context {string} menuID The menu ID.
+  @context {string} class CSS classes applied to the <ul>
 
-@example: {{ partial "menu.html" (dict "class" "flex gap-4" "menuID" "main" "page" .) }}
+  @example: {{ partial "menu.html" (dict "class" "flex gap-4" "menuID" "main" "page" .)
+}}
 */}}
-
 {{- $page := .page }}
 {{- $menuID := .menuID }}
 {{- $class := .class }}
 {{- $label := .label }}
 
-{{- with index site.Menus $menuID  }}
+{{- with index site.Menus $menuID }}
   <nav aria-label="{{ $label }}">
     <ul class="{{- $class -}}">
-      {{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}
+      {{- template "ks-menu-walker" (dict "page" $page "menuEntries" .) }}
     </ul>
   </nav>
 {{- end }}
 
-{{- define "_partials/inline/menu/walk.html" }}
+{{- define "ks-menu-walker" }}
   {{- $page := .page }}
   {{- range .menuEntries }}
     {{- $attrs := dict "href" .URL }}
     {{- $classes := slice }}
 
     {{- if $page.IsMenuCurrent .Menu . }}
-    {{- $classes = $classes | append "active" }}
+      {{- $classes = $classes | append "active" }}
       {{- $attrs = merge $attrs (dict "aria-current" "page") }}
-    {{- else if $page.HasMenuCurrent .Menu .}}
+    {{- else if $page.HasMenuCurrent .Menu . }}
       {{- $classes = $classes | append "ancestor" }}
     {{- end }}
 
-    {{- $style := .Pre }}
+    {{- $style := .Params.style | string }}
     {{- if eq $style "primary" }}
       {{- $classes = $classes | append "btn variant-primary size-primary" }}
     {{- else if eq $style "ghost" }}
       {{- $classes = $classes | append "btn variant-ghost size-ghost" }}
     {{- else }}
-      {{- $classes = $classes | append "text-foreground" }}
+      {{- $classes = $classes | append "text-red-500" }}
     {{- end }}
 
     {{- with $classes }}
@@ -60,10 +60,11 @@ Renders a menu for the given menu ID.
             {{- printf " %s=%q" $k $v | safeHTMLAttr }}
           {{- end }}
         {{- end -}}
-      ><span>{{ $name }}</span></a>
+        ><span>{{ $name }}</span></a
+      >
       {{- with .Children }}
         <ul>
-          {{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}
+          {{- template "ks-menu-walker" (dict "page" $page "menuEntries" .) }}
         </ul>
       {{- end }}
     </li>
