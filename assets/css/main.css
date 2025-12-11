@@ -1,2 +1,122 @@
-@import "tailwindcss";
-@source "hugo_stats.json";
+@import './fonts.css';
+@import 'tailwindcss';
+@source 'hugo_stats.json';
+
+:root {
+  /* Colors (Defaults) */
+  --background: #f5f5f5;
+  --foreground: #52483e;
+  --secondary-foreground: #8b8782;
+  --destructive: #cc0a00;
+  --ring: #be5103;
+  --brown-20: #f2ebe3;
+  --brown-30: #daccbc;
+  --brown-40: #d2cdc6;
+  --brown-50: #afa497;
+  --gray-40: #666666;
+  --gray-60: #3b3b3b;
+  --orange: #f8bf93;
+  --yellow: #d8b74b;
+  --green: #94915b;
+  --red: #883d39;
+}
+
+@theme {
+  /* Fallback Font Families */
+  --font-sans-fallback:
+    system-ui, ui-sans-serif, Roboto, 'Helvetica Neue', 'Arial Nova', Arial, sans-serif;
+
+  /* Font Families */
+  --font-sans: 'Poppins', var(--font-sans-fallback);
+
+  /* Colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-ring: var(--ring);
+  --color-brown-20: var(--brown-20);
+  --color-brown-30: var(--brown-30);
+  --color-brown-40: var(--brown-40);
+  --color-brown-50: var(--brown-50);
+  --color-gray-40: var(--gray-40);
+  --color-gray-60: var(--gray-60);
+  --color-orange: var(--orange);
+  --color-yellow: var(--yellow);
+  --color-green: var(--green);
+  --color-red: var(--red);
+
+  /* Spacing */
+  --spacing-desktop: 1280px;
+  --spacing-mobile: 420px;
+}
+
+/* Utilities */
+@utility sec-fg-to-brown-40 {
+  @apply from-secondary-foreground to-brown-40;
+}
+@utility black-to-gray-40 {
+  @apply to-gray-40 from-black;
+}
+@utility black-to-sec-fg {
+  @apply to-secondary-foreground from-black;
+}
+@utility fg-to-sec-fg {
+  @apply from-foreground to-secondary-foreground;
+}
+@utility brown-40-to-brown-20 {
+  @apply from-brown-40 to-brown-20;
+}
+@utility brown-40-to-orange {
+  @apply from-brown-40 to-orange;
+}
+@utility brown-40-to-bg {
+  @apply from-brown-40 to-background;
+}
+@utility yellow-to-brown-20 {
+  @apply from-yellow to-brown-20;
+}
+@utility brown-30-to-brown-40 {
+  @apply from-brown-30 to-brown-40;
+}
+@utility bg-to-brown-30 {
+  @apply from-background to-brown-30;
+}
+
+/* Base */
+@layer base {
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+/* Components */
+@layer components {
+  .btn {
+    @apply focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50;
+  }
+  /** Button Variants */
+  .btn.variant-primary {
+    @apply black-to-sec-fg [&_span]:fg-to-sec-fg rounded-full bg-linear-to-b text-white [&_span]:rounded-full [&_span]:bg-linear-to-b;
+  }
+  .btn.variant-outline {
+    @apply sec-fg-to-brown-40 [&_span]:bg-background rounded-full bg-linear-to-b text-black [&_span]:rounded-full;
+  }
+  .btn.variant-ghost {
+    @apply cursor-auto;
+  }
+
+  /** Button Size */
+  .btn.size-primary {
+    @apply p-px [&_span]:px-8 [&_span]:py-2.5;
+  }
+}
+
+body {
+  @apply font-sans antialiased;
+}
+
+@view-transition {
+  navigation: auto;
+}

@@ -1,0 +1,47 @@
+{{- /* Usage:
+  1. Standard: 
+  {{ partial "ks/icon" (dict "name" "user")}}
+2. Override:
+  {{ partial "ks/icon" (dict "name" "graph" "ariaHidden" "false" "role" "img") }}
+*/}}
+{{- $name := .name -}}
+{{- $class := .class | default "size-4" -}}
+
+{{- /* A11y Defaults: Hide icon, prevent focus */}}
+{{- $ariaHidden := .ariaHidden | default "true" -}}
+{{- $focusable := .focusable | default "false" -}}
+{{- $role := .role | default "img" -}}
+{{- $attributes := .attributes | default "" | safeHTMLAttr -}}
+{{- $icon := resources.Get (printf "icons/%s.svg" $name) -}}
+
+{{- with $icon }}
+  {{- $content := .Content -}}
+
+  {{- /* Clean up: Remove existing XML declarations or hardcoded attr */}}
+
+  {{- $content := replaceRE `\s(width|height|class)="[^"]*"` "" $content -}}
+
+  {{- /* Inject the class, the accessibility attr  and the optional attr into the opening <svg> tag. */}}
+  {{- $attrs :=  printf ` class="%s" aria-hidden="%s" focusable="%s" role="%s" %s` $class $ariaHidden $focusable $role $attributes -}}
+
+  {{- $content = replace $content "<svg" (printf "<svg%s" $attrs) -}}
+
+  {{- $content | safeHTML -}}
+{{ else }}
+  {{- warnf "Keystone UI: Icon '%s' not found in assets/icons/" $name -}}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="{{ $class }} rounded-sm border border-red-500 bg-red-100 text-red-500"
+    aria-label="Missing Icon: {{ $name }}"
+    role="img"
+  >
+    <path d="M18 6 6 18" />
+    <path d="m6 6 12 12" />
+  </svg>
+{{ end }}
