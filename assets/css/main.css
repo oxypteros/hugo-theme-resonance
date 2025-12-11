@@ -3,6 +3,14 @@
 @source 'hugo_stats.json';
 
 :root {
+  /* Fonts */
+  --font-main: 'Poppins';
+  /** font-size */
+  --text-title: 1.225rem;
+  --text-cta: 2.625rem;
+  /** line-height */
+  --lh-1: 1;
+
   /* Colors (Defaults) */
   --background: #f5f5f5;
   --foreground: #52483e;
@@ -27,7 +35,17 @@
     system-ui, ui-sans-serif, Roboto, 'Helvetica Neue', 'Arial Nova', Arial, sans-serif;
 
   /* Font Families */
-  --font-sans: 'Poppins', var(--font-sans-fallback);
+  --font-sans: var(--font-main), var(--font-sans-fallback);
+
+  /** font-size */
+  --text-title: var(--text-title);
+  --text-cta: var(--text-cta);
+
+  /** line-height */
+  --spacing-lh1: var(--lh-1);
+
+  /** letter-spacing */
+  --tracking-h1: var(--ls-h1);
 
   /* Colors */
   --color-background: var(--background);
@@ -52,11 +70,20 @@
 }
 
 /* Utilities */
+@utility title {
+  @apply text-title leading-lh1 font-semibold;
+}
+@utility cta-h2 {
+  @apply text-cta font-semibold;
+}
 @utility sec-fg-to-brown-40 {
   @apply from-secondary-foreground to-brown-40;
 }
 @utility black-to-gray-40 {
   @apply to-gray-40 from-black;
+}
+@utility black-to-brown-20 {
+  @apply to-background from-black;
 }
 @utility black-to-sec-fg {
   @apply to-secondary-foreground from-black;
@@ -79,10 +106,12 @@
 @utility brown-30-to-brown-40 {
   @apply from-brown-30 to-brown-40;
 }
-@utility bg-to-brown-30 {
-  @apply from-background to-brown-30;
+@utility bg-to-brown-40 {
+  @apply from-background to-brown-40;
 }
-
+@utility fg-to-brown-50 {
+  @apply from-foreground to-brown-50;
+}
 /* Base */
 @layer base {
   button:not(:disabled),
@@ -98,25 +127,54 @@
   }
   /** Button Variants */
   .btn.variant-primary {
-    @apply black-to-sec-fg [&_span]:fg-to-sec-fg rounded-full bg-linear-to-b text-white [&_span]:rounded-full [&_span]:bg-linear-to-b;
+    @apply black-to-sec-fg [&_span]:fg-to-sec-fg hover:brown-40-to-bg hover:text-background rounded-full bg-linear-to-b text-white transition-colors duration-300 [&_span]:rounded-full [&_span]:bg-linear-to-b;
   }
   .btn.variant-outline {
-    @apply sec-fg-to-brown-40 [&_span]:bg-background rounded-full bg-linear-to-b text-black [&_span]:rounded-full;
+    @apply sec-fg-to-brown-40 [&_span]:bg-background hover:fg-to-brown-50 rounded-full bg-linear-to-b text-black transition-colors duration-300 [&_span]:rounded-full;
   }
   .btn.variant-ghost {
-    @apply cursor-auto;
+    @apply black-to-gray-40 selection:text-background hover:black-to-brown-20 rounded-full bg-linear-to-b bg-clip-text text-transparent transition-colors duration-300;
   }
 
   /** Button Size */
   .btn.size-primary {
     @apply p-px [&_span]:px-8 [&_span]:py-2.5;
   }
+  .btn.size-outline {
+    @apply p-px [&_span]:px-8 [&_span]:py-2.5;
+  }
+  .btn.size-ghost {
+    @apply px-8 py-2.5;
+  }
 }
 
 body {
-  @apply font-sans antialiased;
+  @apply text-foreground bg-background font-sans antialiased;
 }
 
 @view-transition {
   navigation: auto;
+}
+::selection {
+  @apply text-background bg-foreground rounded-xs;
+}
+
+/* Dev */
+.b1 {
+  @apply border border-red-600;
+}
+.b2 {
+  @apply border border-green-600;
+}
+.b3 {
+  @apply border border-purple-600;
+}
+.bg1 {
+  @apply bg-red-600;
+}
+.bg2 {
+  @apply bg-green-600;
+}
+.bg3 {
+  @apply bg-purple-600;
 }
