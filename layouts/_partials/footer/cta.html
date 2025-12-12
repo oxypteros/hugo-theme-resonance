@@ -1,0 +1,49 @@
+{{ $ctaData := .Site.GetPage "/footer" }}
+
+{{ with $ctaData }}
+  <section
+    class="max-w-desktop mx-auto mt-20 mb-10.5 flex w-full flex-col items-center justify-center gap-8 px-6"
+  >
+    <div class="max-w-215 text-center text-balance">
+      <h2 class="cta-h2 mb-4">{{ .Title }}</h2>
+      <div class="text-secondary-foreground text-lg md:text-xl [&_p]:mb-4 [&_p:last-child]:mb-0">
+        {{ .Content }}
+      </div>
+    </div>
+    <div class="flex items-center justify-center gap-4">
+      {{- range .Params.links }}
+        {{- $url := .url -}}
+        {{- $label:= .label -}}
+        <!-- Optional -->
+        {{- $style := .style -}}
+        {{- $aria := .aria_label }}
+        {{- $attrs := .attributes }}
+
+
+        <!-- Define Link style -->
+        {{- $btnStyle := "" -}}
+        {{- if eq $style "primary" }}
+          {{- $btnStyle = "variant-primary size-primary" }}
+        {{- else if eq $style "ghost" }}
+          {{- $btnStyle = "variant-ghost size-ghost" }}
+        {{- else }}
+          {{- $btnStyle = "variant-outline size-outline" }}
+        {{- end }}
+        {{- if and $url $label }}
+          <a
+            href="{{ $url }}"
+            class="btn {{ with $btnStyle }}{{ . }}{{- end }}"
+            {{- with $attrs }}
+              {{- range $k, $v := . }}
+                {{- printf " %s=%q" $k $v | safeHTMLAttr }}
+              {{- end }}
+            {{- end }}
+            ><span>{{ $label }}</span></a
+          >
+        {{- else }}
+          {{- warnf "url and/or label is missing from 'content/footer/index.md'" -}}
+        {{- end }}
+      {{- end }}
+    </div>
+  </section>
+{{- end }}
