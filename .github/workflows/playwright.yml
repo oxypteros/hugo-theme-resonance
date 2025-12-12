@@ -84,7 +84,9 @@ jobs:
             
             # Copy to ROOT of badges branch
             cp ../temp_badges_gen/playwright.svg .
-            
+
+            git add playwright.svg
+
             TARGET_BRANCH="badges"
           else
             echo "ℹ️ 'badges' branch NOT found. Falling back to .github/badges..."
@@ -94,13 +96,13 @@ jobs:
             
             mkdir -p .github/badges
             cp ../temp_badges_gen/playwright.svg .github/badges/
+
+            git add .github/badges/playwright.svg
             
             TARGET_BRANCH="${{ github.ref_name }}"
           fi
 
           # 💾 COMMIT & PUSH
-          git add .
-
           if git diff --staged --quiet; then
             echo "No changes to badge."
           else
