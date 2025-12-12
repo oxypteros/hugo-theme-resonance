@@ -34,5 +34,9 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "prettier-plugin-toml": "^2.0.6",
     "tailwindcss": "^4.1.17"
+  },
+    "engines": {
+    "node": ">=22.16.0",
+    "hugo": "0.152.2" 
   }
 }
