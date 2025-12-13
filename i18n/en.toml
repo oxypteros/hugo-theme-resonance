@@ -1,5 +1,5 @@
-[FooterLicense]
-other = "All rights reserved"
+[CopyrightNotice]
+other = "{{ .Holder }}. All rights reserved."
 # a11y
 [HeaderMenuLabel]
 other = "Main Menu"
