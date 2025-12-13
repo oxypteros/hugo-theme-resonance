@@ -4,14 +4,16 @@
     {{ partial "head.html" . }}
   </head>
   <body>
-    <header>
-      {{ partial "header.html" . }}
-    </header>
-    <main>
-      {{ block "main" . }}{{ end }}
-    </main>
-    <footer>
-      {{ partial "footer.html" . }}
-    </footer>
+    <div class="flex min-h-screen flex-col">
+      <header class="sticky top-0">
+        {{ partial "header.html" . }}
+      </header>
+      <main class="grow">
+        {{ block "main" . }}{{ end }}
+      </main>
+      <footer class="bg-to-brown-40 bg-linear-to-b">
+        {{ partial "footer.html" . }}
+      </footer>
+    </div>
   </body>
 </html>

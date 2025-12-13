@@ -1,0 +1,43 @@
+<div
+  x-data="{ open: false }"
+  
+><button
+    type="button"
+    @click="open = !open"
+    :aria-expanded="open"
+    aria-controls="mobile-menu">
+    {{ partial "ks/icon" (dict "name" "menu" "class" "size-8") }}
+    </button>
+  <template x-teleport="body">
+    <div
+      x-show="open"
+      @keydown.escape.window="open = false; "
+      x-cloak
+      class="fixed top-0 z-80 w-full pt-8"
+    >
+      <aside
+        x-show="open"
+        x-transition
+        x-trap.noscroll="open"
+        aria-labelledby="mobile-menu-heading"
+        role="dialog"
+        aria-modal="true"
+        id="mobile-menu"
+        class="relative flex h-full w-full min-w-80 flex-col p-4 b3"
+      >
+        <div class="mb-12 flex items-center justify-between">
+          <h2
+            id="mobile-menu-heading"
+            class="text-foreground text-2xl font-medium"
+          >
+            {{ i18n "MobileMenuH2" . | default "Main Menu" }}
+          </h2>
+        <button type="button" @click="open = false;">X</button>
+        </div>
+        <div class="menu-mobile">
+          {{ partial "ks/menu.html" (dict "menuID" "mobile" "page" .) }}
+        </div>
+      </aside>
+    </div>
+  </template>
+</div>

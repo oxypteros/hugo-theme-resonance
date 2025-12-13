@@ -1,7 +1,22 @@
 [[header]]
 name = "Home"
-url = "/"
+identifier = "home"
+pageRef = "/"
 weight = 100
+params = { style = "ghost" }
+
+[[header]]
+name = "Tech Specs"
+identifier = "specs"
+pageRef = "/products/"
+weight = 110
+params = { style = "ghost" }
+[[header]]
+name = "Buy Now"
+identifier = "buy"
+url = "/products/"
+weight = 120
+params = { style = "primary" }
 
 [[footer]]
 name = "Contact"
@@ -11,5 +26,20 @@ weight = 100
 [[social]]
 name = "Github"
 url = "https://github.com/oxypteros/"
-pre = "#github"
+params = { icon = "github-logo" }
 weight = 100
+[[social]]
+name = "Discord"
+url = "https://github.com/oxypteros/"
+params = { icon = "discord-logo" }
+weight = 110
+[[social]]
+name = "Twitter"
+url = "https://github.com/oxypteros/"
+params = { icon = "twitter-logo" }
+weight = 120
+[[social]]
+name = "Meta"
+url = "https://github.com/oxypteros/"
+params = { icon = "meta-logo" }
+weight = 130

@@ -1,2 +1,16 @@
-<h1>{{ site.Title }}</h1>
-{{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+<div class="bg-background/80 backdrop-blur-md">
+  <div class="max-w-desktop mx-auto flex w-full items-center justify-between p-6">
+    <div class="inline-flex items-center gap-0.5">
+      {{ partial "ks/icon" (dict "name" "resonance-logo" "class" "size-6.5") }}
+      <span class="title">{{ site.Title | default "Resonance" }}</span>
+    </div>
+    <div>
+      <div class="hidden md:block">
+        {{ partial "ks/menu" (dict "class" "flex gap-2.5" "label" ( i18n "HeaderMenuLabel") "menuID" "header" "page" .) }}
+      </div>
+      <div class="md:hidden">
+        {{- partial "ks/mobile-menu" . -}}
+      </div>
+    </div>
+  </div>
+</div>
