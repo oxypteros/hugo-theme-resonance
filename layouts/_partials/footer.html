@@ -1,21 +1,21 @@
-{{- $currentYear := dateFormat "2006" now }}
-{{- $estYear := default $currentYear .Site.Params.established_year }}
-{{- $shortYear := dateFormat "06" now }}
-{{- $yearDisplay := cond (eq $estYear $currentYear) (string $currentYear) (printf "%v-%v" $estYear $shortYear) }}
+{{- $currentYear := dateFormat "2006" now -}}
+{{- $estYear := default $currentYear site.Params.established_year -}}
+{{- $shortYear := dateFormat "06" now -}}
+{{- $yearDisplay := cond (eq $estYear $currentYear) (string $currentYear) (printf "%v-%v" $estYear $shortYear) -}}
 
 {{- /* Error Handler */}}
 {{- $error:= "" -}}
-{{- if .Site.Params.established_year -}}
+{{- if .Site.Params.established_year }}
   {{- $paramYear := string .Site.Params.established_year -}}
   {{- $validYearFormat := findRE `^\d{4}$` $paramYear -}}
-  {{- if not $validYearFormat -}}
+  {{- if not $validYearFormat }}
     {{- warnf "'%s' is not a valid year value" $paramYear -}}
     {{- $error = "text-destructive font-bold" -}}
-  {{- else if gt $paramYear $currentYear -}}
+  {{- else if gt $paramYear $currentYear }}
     {{- warnf "'%s' is a future year value" $paramYear -}}
     {{- $error = "text-destructive font-bold" -}}
-  {{- end -}}
-{{- end -}}
+  {{- end }}
+{{- end }}
 
 
 <div class="max-w-desktop mx-auto flex w-full flex-col items-center justify-end gap-10.5">
@@ -37,8 +37,7 @@
       <div>
         &copy;
         <span {{ with $error }}class="{{ . }}"{{- end }}>{{ $yearDisplay }}</span>
-        {{ site.Title | default "Resonance" }}.
-        {{ i18n "FooterLicense" . | default "All rights reserved" }}
+        {{ i18n "CopyrightNotice" (dict  "Holder" site.Title) | safeHTML }}
       </div>
       <!-- Socials -->
       <nav aria-label="{{ i18n "SocialLinksLabel" . | default "Social links" }}">
