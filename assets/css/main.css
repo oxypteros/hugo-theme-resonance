@@ -6,10 +6,21 @@
   /* Fonts */
   --font-main: 'Poppins';
   /** font-size */
-  --text-title: 1.225rem;
-  --text-cta: 2.625rem;
+  --text-180: 11.25rem; /* 180 */
+  --text-86: 5.375rem;  /* 86 */
+  --text-60: 3.75rem;   /* 60 */
+  --text-56: 3.5rem;    /* 56 */
+  --text-42: 2.625rem;  /* 42 */
+  --text-32: 2rem;      /* 32 */
+  --text-24: 1.5rem;    /* 24 */
+  --text-20: 1.25rem;   /* 20 */
+  --text-19_6: 1.225rem;  /* 19.6 */
+  --text-18: 1.125rem;  /* 18 */
+
   /** line-height */
-  --lh-1: 1;
+  --lh-172: 0.96; /* 180/172 */
+  --lh-120 : 1.4; /* 86/120 */
+  --lh-42 : 1.3125; /* 32/42 */
 
   /* Colors (Defaults) */
   --background: #f5f5f5;
@@ -38,14 +49,21 @@
   --font-sans: var(--font-main), var(--font-sans-fallback);
 
   /** font-size */
-  --text-title: var(--text-title);
-  --text-cta: var(--text-cta);
+  --text-rs-180: var(--text-180);
+  --text-rs-86: var(--text-86);
+  --text-rs-60: var(--text-60);
+  --text-rs-56: var(--text-56);
+  --text-rs-42: var(--text-42);
+  --text-rs-32: var(--text-32);
+  --text-rs-24: var(--text-24);
+  --text-rs-20: var(--text-20); 
+  --text-rs-19_6: var(--text-19_6); 
+  --text-rs-18: var(--text-18); 
 
   /** line-height */
-  --spacing-lh1: var(--lh-1);
-
-  /** letter-spacing */
-  --tracking-h1: var(--ls-h1);
+  --spacing-lh-172: var(--lh-172);
+  --spacing-lh-120 : var(--lh-120);
+  --spacing-lh-42 : var(--lh-42);
 
   /* Colors */
   --color-background: var(--background);
@@ -70,12 +88,31 @@
 }
 
 /* Utilities */
-@utility title {
-  @apply text-title leading-lh1 font-semibold;
+@utility txt-180{
+  @apply text-rs-180 leading-lh-172 font-semibold;
 }
-@utility cta-h2 {
-  @apply text-cta font-semibold;
+@utility txt-86{
+  @apply text-rs-86 leading-lh-120 font-semibold;
 }
+@utility txt-60{
+  @apply text-rs-60 leading-lh-42 font-semibold;
+}
+@utility txt-56{
+  @apply text-rs-56 font-semibold;
+}
+@utility txt-42 {
+  @apply text-rs-42 font-semibold;
+}
+@utility txt-32{
+  @apply text-rs-32 leading-lh-42 font-medium;
+}
+@utility txt-24{
+  @apply text-rs-24;
+}
+@utility txt-19.6 {
+  @apply text-rs-19.6 leading-none font-semibold;
+}
+
 @utility sec-fg-to-brown-40 {
   @apply from-secondary-foreground to-brown-40;
 }
@@ -91,6 +128,9 @@
 @utility fg-to-sec-fg {
   @apply from-foreground to-secondary-foreground;
 }
+@utility brown-50-to-brown-30 {
+  @apply from-brown-50 to-brown-30;
+}
 @utility brown-40-to-brown-20 {
   @apply from-brown-40 to-brown-20;
 }
@@ -105,6 +145,9 @@
 }
 @utility brown-30-to-brown-40 {
   @apply from-brown-30 to-brown-40;
+}
+@utility brown-30-to-brown-50 {
+  @apply from-brown-30 to-brown-50;
 }
 @utility bg-to-brown-40 {
   @apply from-background to-brown-40;
