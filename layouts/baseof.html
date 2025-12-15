@@ -1,18 +1,19 @@
 <!doctype html>
 <html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}">
   <head>
-    {{ partial "head.html" . }}
+    {{ partial "head" . }}
   </head>
   <body>
     <div class="flex min-h-screen flex-col">
-      <header class="sticky top-0">
-        {{ partial "header.html" . }}
+      <header>
+        {{ partial "header" . }}
       </header>
       <main class="grow">
+        {{ partial "sections/hero" . }}
         {{ block "main" . }}{{ end }}
       </main>
       <footer class="bg-to-brown-40 bg-linear-to-b">
-        {{ partial "footer.html" . }}
+        {{ partial "footer" . }}
       </footer>
     </div>
   </body>
